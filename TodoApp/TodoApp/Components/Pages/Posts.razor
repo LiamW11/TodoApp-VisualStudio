@@ -1,0 +1,48 @@
+﻿@page "/posts"
+@using YourApp.Models
+@inject YourApp.Services.PostService PostService
+
+<h1>Posts</h1>
+
+@if (isLoading)
+{
+    <p>Laddar...</p>
+}
+else if (!string.IsNullOrWhiteSpace(error))
+{
+    <p style="color:darkred;">@error</p>
+}
+else
+{
+    <ul>
+        @foreach (var p in posts)
+        {
+            <li>
+                <strong>@p.Title</strong><br />
+                <small>Id: @p.Id, UserId: @p.UserId</small>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private bool isLoading = true;
+    private string? error;
+    private List<Post> posts = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            posts = await PostService.GetPostsAsync();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

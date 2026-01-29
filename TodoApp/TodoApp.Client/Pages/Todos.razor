@@ -1,0 +1,48 @@
+﻿@page "/todos"
+@rendermode InteractiveServer
+
+<h1>Todos</h1>
+
+<div style="display:flex; gap:8px; align-items:center;">
+    <input @bind="newTitle" placeholder="Ny todo" />
+    <button @onclick="AddTodo">Lägg till</button>
+</div>
+
+@if (todos.Count == 0)
+{
+    <p>Inga todos ännu.</p>
+}
+else
+{
+    <ul>
+        @foreach (var t in todos)
+        {
+            <li>
+                <input type="checkbox" @bind="t.Done" />
+                <span style="margin-left:6px;">@t.Title</span>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private string newTitle = "";
+    private List<TodoItem> todos = new();
+
+    private void AddTodo()
+    {
+        if (string.IsNullOrWhiteSpace(newTitle))
+        {
+            return;
+        }
+        todos.Add(new TodoItem { Id = todos.Count + 1, Title = newTitle, Done = false });
+        newTitle = "";
+    }
+
+    private sealed class TodoItem
+    {
+        public int Id { get; set; }
+        public string Title { get; set; } = "";
+        public bool Done { get; set; }
+    }
+}

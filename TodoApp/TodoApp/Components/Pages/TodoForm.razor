@@ -1,0 +1,57 @@
+﻿@page "/todo-form"
+@rendermode InteractiveServer
+@using YourApp.Models
+
+<h1>Todo (formulär)</h1>
+
+<EditForm Model="model" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div style="margin-bottom:10px;">
+        <label>Titel</label><br />
+        <InputText @bind-Value="model.Title" />
+        <div style="color:darkred;">
+            <ValidationMessage For="@(() => model.Title)" />
+        </div>
+    </div>
+
+    <div style="margin-bottom:10px;">
+        <label>Klar</label>
+        <InputCheckbox @bind-Value="model.Done" />
+    </div>
+
+    <button type="submit">Spara</button>
+</EditForm>
+
+<hr />
+
+@if (items.Count == 0)
+{
+    <p>Inga sparade items ännu.</p>
+}
+else
+{
+    <ul>
+        @foreach (var i in items)
+        {
+            <li>
+                <strong>@i.Title</strong> — Done: @i.Done
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private TodoCreateModel model = new();
+    private List<TodoCreateModel> items = new();
+
+    private void HandleValidSubmit()
+    {
+        // Spara en kopia av modellen
+        items.Add(new TodoCreateModel { Title = model.Title, Done = model.Done });
+
+        // Nollställ formulär
+        model = new TodoCreateModel();
+    }
+}
