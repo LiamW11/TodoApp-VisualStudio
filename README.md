@@ -1,0 +1,11 @@
+- **Krav**: Visual Studio Community 2022 + ASP.NET workload
+- **Kör lokalt**: F5 eller `dotnet run`
+- **Routes**:
+  - `/todos` – state + events
+  - `/posts` – API + JSON
+  - `/todo-form` – formulär + validering
+- **Struktur**:
+  - `Models/` – C#-modeller
+  - `Services/` – API/affärslogik
+  - `Pages/` – UI-komponenter
+- **Källor**: - https://chatgpt.com/share/697b5b41-deb8-800d-9bb7-cfd919fb450f (För en stegvis guide till uppgiften)
